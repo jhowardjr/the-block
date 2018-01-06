@@ -55,13 +55,13 @@ truffle console
 9. Deploy the contract.
 
 ```
-truffle migrate
+truffle(development)> migrate
 ```
 
 10. For testing purposes, generate 10 initial property contracts.
 
 ```
-TheBlock.deployed().then(function (instance) {instance.genesis();});
+truffle(development)> TheBlock.deployed().then(function (instance) {instance.genesis();});
 ```
 
 11. In Chrome, with the MetaMask plugin enabled, go to http://localhost:3000/
