@@ -19,8 +19,6 @@ App = {
     web3 = new Web3(App.web3Provider);
 
     // TODO: CHECK IF VALID WALLET
-
-
     return App.initContract();
   },
 
@@ -64,6 +62,8 @@ App = {
 
   loadProperty: function () {
 
+    var img = document.getElementById('base-image');
+
     App.contracts.TheBlock.deployed().then(function (instance) {
 
       instance.length().then(function (value) {
@@ -72,15 +72,51 @@ App = {
 
             App.contracts.Property.at(property).getAttributes().then(function (attributes) {
 
-              html = '<li class="list-group-item">';
-              html += '<div>';
-              html += '<span>' + attributes[0] + '</span>';
-              html += '<span>' + attributes[1] + '</span>';
-              html += '</div>';
-              html += '<div>' + property + '</div>';
-              html += '</li>';
+              uint = new Uint8Array(property.length);
 
-              $('#properties').append(html);
+              for (var i = 0, j = property.length; i < j; ++i) {
+                uint[i] = property.charCodeAt(i);
+              }
+
+              var canvas = document.createElement('canvas');
+              canvas.width = img.width;
+              canvas.height = img.height;
+
+              var context = canvas.getContext('2d');
+              context.drawImage(img, 0, 0, img.width, img.height);
+
+              var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+              var data = imageData.data;
+
+
+              for (var i = 0; i < data.length; i += 4) {
+
+                if (uint[2] < 85) {
+                  data[i] = data[i] - uint[2]; // red
+                }
+
+                if (uint[2] >= 85 && uint[2] < 170) {
+                  data[i + 1] = data[i + 1] - uint[2]; // green
+                }
+
+                if (uint[2] >= 170) {
+                  data[i + 2] = data[i + 2] - uint[2]; // blue
+                }
+
+                if ((data[i] + data[i + 1] + data[i + 2]) === 0) {
+                  data[i] = data[i] + uint[2]; // red
+                  data[i + 1] = data[i + 1] + uint[2]; // green
+                  data[i + 2] = data[i + 2] + uint[2]; // blue
+                }
+
+              }
+
+              context.putImageData(imageData, 0, 0);
+
+              var li = document.createElement('li');
+              li.append(canvas);
+
+              $('#properties').append(li);
 
             });
           });
