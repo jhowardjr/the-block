@@ -29,46 +29,73 @@ A step by step series of examples that tell you have to get a development env ru
 2. Clone the git repository. 
 
 ```
-Give the example
+git clone https://hustle24@bitbucket.org/hustle24/the-block.git
 ```
 
-And repeat
+3. Start [ganache](http://truffleframework.com/ganache/)
+
+4. Configure the MetaMask client to use the Ganache blockchain. See how-to [here](http://truffleframework.com/docs/advanced/truffle-with-metamask#setting-up-metamask)
+
+5. From the command line terminal, navigate to the *the-block* directory.
+
+6. Start the Dapp.
 
 ```
-until finished
+npm run dev
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+7. From a *new* command line terminal, navigate to the *the-block* directory.
+
+8. Open the truffle console.
+
+```
+truffle console
+```
+
+9. Deploy the contract.
+
+```
+truffle migrate
+```
+
+10. For testing purposes, generate 10 initial property contracts.
+
+```
+TheBlock.deployed().then(function (instance) {instance.genesis();});
+```
+
+11. In Chrome, with the MetaMask plugin enabled, go to http://localhost:3000/
+
+* If successful, the following will be display (The auction section will be different): 
+
+![Screenshot](/src/images/success.png)
+
+## How does it work
+
+Running the genesis() function above creates 10 contracts on the blockchain. Each contract is represented with an address that looks like 0x2d3fdb70870a072fddc3b9d64b163d2b11d2dc29. Removing the first two character 0x there are 40 remain hexadecimal values. Each hexadecimal digit can be used to make decisions 40^16 combinations. In this example, using 2d3fdb70870a072fddc3b9d64b163d2b11d2dc29, the type of property is selected based on the '2' in the first position and a simple image color manipulation is done using the 'd' in the second position. Based on the user unlocking other features of the contract more elements or tranformations of the photo can occur. Imagine they unlocked the "house" feature we could use the 'd' in the second position to choose from 16 different house to place and use the adjacent '3' in the thrid position to tranform the pattern of the house. This example could be expanded to many different operations. Imagine also users could trade ownsership on the contract before all the options are exhausted or even resell the contract once they are tired of upgrading an existing property. The big question is how do we gamify unlocking these options in an way that is fun. 
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+TODO
 
 ### Break down into end to end tests
 
-Explain what these tests test and why
-
-```
-Give an example
-```
+TODO
 
 ### And coding style tests
 
-Explain what these tests test and why
-
-```
-Give an example
-```
+TODO
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+TODO
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Truffle](http://truffleframework.com/)
+* [NodeJS](https://nodejs.org/)
+* [Bootstrap](https://getbootstrap.com/)
+* [Ethereum JavaScript API](https://github.com/ethereum/web3.js/)
 
 ## Contributing
 
@@ -80,17 +107,13 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Bruce Smalls** 
+* **Johnathan Howard**
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the TBD License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
-
+* TODO

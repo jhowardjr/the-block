@@ -17,6 +17,35 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+  <style>
+    .original-images,
+    .auction-images {
+      text-align: center;
+    }
+
+    .original-images ul,
+    .original-images li,
+    .auction-images ul,
+    .auction-images li {
+      margin-bottom: 20px;
+    }
+
+    .original-images li,
+    .auction-images li {
+      padding: 10px;
+      display: inline-block;
+    }
+
+    .button-panel {
+      width: 100%;
+      height: 40px;
+    }
+
+    .button-panel button {
+      background: #000;
+      color: #fff;
+    }
+  </style>
 </head>
 
 <body>
@@ -28,10 +57,27 @@
         <br/>
       </div>
     </div>
-    <img width="320" height="180" id="base-image" src="/images/residential-land-for-sale.jpg" alt="">
-    <div id="property-row" class="row">
+    <div class="row original-images">
+      <h2>Originals</h2>
+      <ul>
+        <li>
+          <img id="base-image-1" src="/images/desert.png" alt="">
+        </li>
+        <li>
+          <img id="base-image-2" src="/images/island.png" alt="">
+        </li>
+        <li>
+          <img id="base-image-3" src="/images/mountain.png" alt="">
+        </li>
+        <li>
+          <img id="base-image-4" src="/images/snow.png" alt="">
+        </li>
+      </ul>
+    </div>
+    <div id="property-row" class="row auction-images">
+      <h2>Auction</h2>
       <!-- <button class="btn-genesis">Generate Land</button> -->
-      <ul id="properties" class="list-group">
+      <ul id="properties">
         <!-- PROPERTIES LOAD HERE -->
       </ul>
     </div>

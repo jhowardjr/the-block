@@ -62,21 +62,34 @@ App = {
 
   loadProperty: function () {
 
-    var img = document.getElementById('base-image');
-
     App.contracts.TheBlock.deployed().then(function (instance) {
 
       instance.length().then(function (value) {
         for (var i = 0; i < value.toNumber(); i++) {
           instance.retrieveAt(i).then(function (property) {
+            var uint = new Uint8Array(property.length);
+
+            for (var i = 0, j = property.length; i < j; ++i) {
+              uint[i] = property.charCodeAt(i);
+            }
+
+            var position = 1;
+
+            if (uint[2] >= 52 && uint[2] <= 55) {
+              position = 2;
+            }
+
+            if (uint[2] >= 56 && uint[2] <= 98) {
+              position = 3;
+            }
+
+            if (uint[2] > 98) {
+              position = 4;
+            }
+
+            var img = document.getElementById('base-image-' + position);
 
             App.contracts.Property.at(property).getAttributes().then(function (attributes) {
-
-              uint = new Uint8Array(property.length);
-
-              for (var i = 0, j = property.length; i < j; ++i) {
-                uint[i] = property.charCodeAt(i);
-              }
 
               var canvas = document.createElement('canvas');
               canvas.width = img.width;
@@ -88,34 +101,41 @@ App = {
               var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
               var data = imageData.data;
 
-
               for (var i = 0; i < data.length; i += 4) {
 
-                if (uint[2] < 85) {
-                  data[i] = data[i] - uint[2]; // red
+                if (uint[3] < 85 || uint[3] > 98) {
+                  data[i] = data[i] - uint[3]; // red
                 }
 
-                if (uint[2] >= 85 && uint[2] < 170) {
-                  data[i + 1] = data[i + 1] - uint[2]; // green
+                if (uint[3] >= 52 && uint[3] <= 55) {
+                  data[i + 1] = data[i + 1] - uint[3]; // green
                 }
 
-                if (uint[2] >= 170) {
-                  data[i + 2] = data[i + 2] - uint[2]; // blue
+                if (uint[3] >= 56 && uint[3] <= 98) {
+                  data[i + 2] = data[i + 2] - uint[3]; // blue
                 }
 
                 if ((data[i] + data[i + 1] + data[i + 2]) === 0) {
-                  data[i] = data[i] + uint[2]; // red
-                  data[i + 1] = data[i + 1] + uint[2]; // green
-                  data[i + 2] = data[i + 2] + uint[2]; // blue
+                  data[i] = data[i] + uint[3]; // red
+                  data[i + 1] = data[i + 1] + uint[3]; // green
+                  data[i + 2] = data[i + 2] + uint[3]; // blue
                 }
 
               }
 
               context.putImageData(imageData, 0, 0);
 
-              var li = document.createElement('li');
-              li.append(canvas);
+              var li = document.createElement('li'),
+                menu = document.createElement('div'),
+                button = document.createElement('button');
 
+              menu.className = 'button-panel';
+              button.className = 'btn btn-outline-primary';
+              button.innerText = 'Buy';
+
+              li.append(canvas);
+              li.append(menu);
+              menu.append(button);
               $('#properties').append(li);
 
             });
