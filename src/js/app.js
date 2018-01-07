@@ -63,14 +63,15 @@ App = {
   loadProperty: function () {
 
     App.contracts.TheBlock.deployed().then(function (instance) {
-
       instance.length().then(function (value) {
+
         for (var i = 0; i < value.toNumber(); i++) {
+
           instance.retrieveAt(i).then(function (property) {
             var uint = new Uint8Array(property.length);
 
-            for (var i = 0, j = property.length; i < j; ++i) {
-              uint[i] = property.charCodeAt(i);
+            for (var j = 0; j < property.length; j++) {
+              uint[j] = property.charCodeAt(j);
             }
 
             var position = 1;
@@ -101,24 +102,24 @@ App = {
               var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
               var data = imageData.data;
 
-              for (var i = 0; i < data.length; i += 4) {
+              for (var k = 0; k < data.length; k += 4) {
 
                 if (uint[3] < 85 || uint[3] > 98) {
-                  data[i] = data[i] - uint[3]; // red
+                  data[k] = data[k] - uint[3]; // red
                 }
 
                 if (uint[3] >= 52 && uint[3] <= 55) {
-                  data[i + 1] = data[i + 1] - uint[3]; // green
+                  data[k + 1] = data[k + 1] - uint[3]; // green
                 }
 
                 if (uint[3] >= 56 && uint[3] <= 98) {
-                  data[i + 2] = data[i + 2] - uint[3]; // blue
+                  data[k + 2] = data[k + 2] - uint[3]; // blue
                 }
 
-                if ((data[i] + data[i + 1] + data[i + 2]) === 0) {
-                  data[i] = data[i] + uint[3]; // red
-                  data[i + 1] = data[i + 1] + uint[3]; // green
-                  data[i + 2] = data[i + 2] + uint[3]; // blue
+                if ((data[k] + data[k + 1] + data[k + 2]) === 0) {
+                  data[k] = data[k] + uint[3]; // red
+                  data[k + 1] = data[k + 1] + uint[3]; // green
+                  data[k + 2] = data[k + 2] + uint[3]; // blue
                 }
 
               }
